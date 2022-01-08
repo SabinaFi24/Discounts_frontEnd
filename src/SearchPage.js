@@ -4,29 +4,8 @@ import Cookies from "universal-cookie/es6";
 import axios from "axios";
 import UserComponent from "./UserComponent";
 
-class FollowedPage extends React.Component {
-    state = {
-        followed: []
-
-    }
-
-    componentDidMount() {
-        this.getFollowed();
-    }
-
-    getFollowed = () => {
-        const cookies = new Cookies();
-        axios.get("http://localhost:8989/get-followed", {
-            params: {
-                token: cookies.get("logged_in")
-            }
-        })
-            .then((response) => {
-                this.setState({
-                    followed: response.data
-                })
-            })
-    }
+class SearchPage extends React.Component {
+    state = {}
 
     render = () => {
         return (
@@ -45,4 +24,4 @@ class FollowedPage extends React.Component {
     }
 }
 
-export default FollowedPage;
+export default SearchPage;

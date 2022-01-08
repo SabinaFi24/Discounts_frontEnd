@@ -7,8 +7,8 @@ import {Route} from "react-router";
 import NavigationBar from "./NavigationBar";
 import LoginPage from "./LoginPage";
 import Cookies from "universal-cookie";
-import FollowedPage from "./FollowedPage";
-import FollowedProfilePage from "./FollowedProfilePage";
+import SearchPage from "./SearchPage";
+import SettingsPage from "./SettingsPage";
 
 class App extends React.Component {
 

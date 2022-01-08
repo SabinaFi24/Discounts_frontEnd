@@ -24,34 +24,10 @@ class StoresPage extends React.Component {
         })
     }
 
-    /*addPost = () => {
-        const cookies = new Cookies();
-        let data = new FormData();
-        if (this.state.file) {
-            data.append("file", this.state.file, this.state.file.name);
-        }
-        data.append("token", cookies.get("logged_in"));
-        data.append("content", this.state.content);
-        axios.post("http://localhost:8989/add-post", data, {
-            headers: {'content-type': 'multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p'}
-        }).then((response) => {
-                if (response.data) {
-                    const currentPosts = this.state.posts;
-                    currentPosts.unshift({
-                        content: this.state.content,
-                        date: "Few moments ago..."
-                    })
-                    this.setState({
-                        posts: currentPosts
-                    })
-                } else {
-                    alert("couldn't add post")
-                }
-            })
-    }*/
 
 
-    getAllPosts = () => {
+
+    getAllStores = () => {
         const cookies = new Cookies();
         axios.get("http://localhost:8989/get-stores", {
             params: {
@@ -97,7 +73,7 @@ class StoresPage extends React.Component {
                                     {store.name}
                                 </i>
                                 <h1><AiFillLike color={"blue"}/></h1>
-                                
+
                             </div>
                         )
                     })
