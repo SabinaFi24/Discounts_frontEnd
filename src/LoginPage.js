@@ -2,6 +2,7 @@ import './App.css';
 import * as React from "react";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import {Redirect} from "react-router";
 
 class LoginPage extends React.Component {
     state = {
@@ -9,7 +10,7 @@ class LoginPage extends React.Component {
         password: "",
         showError: false,
         response: "",
-        newPath : ""
+        newPath : "/"
     }
 
     onUsernameChange = (e) => {
@@ -43,11 +44,12 @@ class LoginPage extends React.Component {
                 }).then(response=>{
                     if(response.data == 1){
                         this.setState({
-                            redirect:"/profile"
+                            newPath:"/profile"
+
                         })}
                     else if (response.data == 0){
                         this.setState({
-                            redirect:"/settings"
+                            newPath:"/settings"
                         })}
                     else {
                         this.setState({
@@ -105,7 +107,9 @@ class LoginPage extends React.Component {
         const hasRequiredDetails = !(this.state.username == "" || this.state.password == "");
 
         return (
+
             <div style={{margin: "auto", width: "50%", padding: "10px"}}>
+                <Redirect to={(this.state.newPath)}/>
                 <fieldset style={{width: "300px"}}>
                     <legend>
                         <div style={{fontSize: "20px"}}>
@@ -135,5 +139,4 @@ class LoginPage extends React.Component {
         )
     }
 }
-
 export default LoginPage;
