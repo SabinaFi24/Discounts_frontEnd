@@ -87,6 +87,5 @@ class SettingsPage extends React.Component {
         )
     }
 }
-}
 
 export default SettingsPage;

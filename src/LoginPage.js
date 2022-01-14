@@ -8,7 +8,8 @@ class LoginPage extends React.Component {
         username: "",
         password: "",
         showError: false,
-        response: ""
+        response: "",
+        newPath : ""
     }
 
     onUsernameChange = (e) => {
@@ -24,26 +25,38 @@ class LoginPage extends React.Component {
         })
     }
 
-
-    login = () => {
-        axios.get("http://localhost:8989/sign-in", {
+    login=()=>{
+        axios.get("http://localhost:8989/sign-in",{
             params: {
                 username: this.state.username,
                 password: this.state.password
+            } }).then(response=> {
+            if(response.data){
+                const cookies = new Cookies();
+                cookies.set("logged_in", response.data);
+                //window.location.reload();
+                axios.get("http://localhost:8989/first-sign-in",{
+                    params:{
+                        username: this.state.username,
+                        password: this.state.password
+                    }
+                }).then(response=>{
+                    if(response.data == 1){
+                        this.setState({
+                            redirect:"/profile"
+                        })}
+                    else if (response.data == 0){
+                        this.setState({
+                            redirect:"/settings"
+                        })}
+                    else {
+                        this.setState({
+                            showError: true
+                        })
+                    }})
+                window.location.reload();
             }
         })
-            .then((response) => {
-                if (response.data && response.data.length > 0) {
-                    const cookies = new Cookies();
-                    cookies.set("logged_in", response.data);
-                    window.location.reload();
-                } else {
-                    this.setState({
-                        showError: true
-                    })
-                }
-            })
-
     }
 
     signUp = () => {
