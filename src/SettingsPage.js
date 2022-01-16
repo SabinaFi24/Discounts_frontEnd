@@ -8,7 +8,8 @@ import Dropzone from "react-dropzone";
 class SettingsPage extends React.Component {
     state = {
         token: "",
-        organizations:[]
+        organizations:[],
+        isFriend: false
     }
 
     componentDidMount() {
@@ -28,7 +29,7 @@ class SettingsPage extends React.Component {
                 })
             })
     }
-    addOrganization = () => {
+    /*addOrganization = () => {
         const cookies = new Cookies();
         let data = new FormData();
         if (this.state.file) {
@@ -52,10 +53,32 @@ class SettingsPage extends React.Component {
                     alert("couldn't add the organization")
                 }
             })
+    }*/
+    onSettingsChange =(isFriend) =>{
+        const cookies = new Cookies();
+        let data = new FormData();
+        data.append("token", cookies.get("logged_in"));
+        data.append("isFriend", this.state.isFriend);
+        axios.post("http://localhost:8989/add-organization", data, {
+            headers: {'content-type': 'multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p'}
+        }).then((response) => {
+            if (response.data) {
+                const currentOrganizations = this.state.organizations;
+                currentOrganizations.unshift({
+                    token: this.state.token,
+                })
+                this.setState({
+                    organizations: currentOrganizations
+                })
+            } else {
+                alert("couldn't add the organization")
+            }
+        })
+        }
     }
 
 
-    render() {
+    render(){
         return (
             <div>
                 {
@@ -75,17 +98,15 @@ class SettingsPage extends React.Component {
                 }
 
                 <div style={{marginTop: "30px"}}>
-                    <textarea
-                        onChange={this.onTextChange}
-                        value={this.state.content}
-                        placeholder={"Enter post"}
-                    /><br/>
-
-                    <button onClick={this.addOrganization}>Submit</button>
-                </div>
+                    <input type="radio"
+                           name="isFriend"
+                        onChange={this.onSettingsChange}
+                        value={this.state.isFriend}
+                    />
+                 </div>
             </div>
         )
     }
-}
+
 
 export default SettingsPage;
