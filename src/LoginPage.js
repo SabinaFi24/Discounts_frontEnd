@@ -45,14 +45,14 @@ class LoginPage extends React.Component {
                 }).then(response=> {
                     if (response.data) {
                         this.setState({
-                            newPath: "/settings"
+                            newPath: "/profile"
 
                         })
                         //this.props.router.push('/profile')
 
                     } else {
                         this.setState({
-                            newPath: "/profile"
+                            newPath: "/settings"
                         })
                         //this.props.router.push('/profile')
                     }
@@ -107,7 +107,7 @@ class LoginPage extends React.Component {
 
         const hasRequiredDetails = !(this.state.username == "" || this.state.password == "");
 
-        {if(this.state.showError) return (this.props.router.push(this.state.newPath))}
+        {if(this.state.showError) return (<Redirect to={(this.state.newPath)}/>)}
             return(
             <div style={{margin: "auto", width: "50%", padding: "10px"}}>
                 <Redirect to={(this.state.newPath)}/>
