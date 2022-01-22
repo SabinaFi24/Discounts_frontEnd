@@ -9,8 +9,9 @@ class LoginPage extends React.Component {
         username: "",
         password: "",
         showError: false,
+        noProblems: false,
         response: "",
-        newPath : "/"
+        newPath : "/profile"
     }
 
     onUsernameChange = (e) => {
@@ -33,32 +34,34 @@ class LoginPage extends React.Component {
                 password: this.state.password
             } }).then(response=> {
             if(response.data){
+                this.setState({noProblems:true})
                 const cookies = new Cookies();
                 cookies.set("logged_in", response.data);
                 //window.location.reload();
                 axios.get("http://localhost:8989/first-sign-in",{
                     params:{
-                        username: this.state.username,
-                        password: this.state.password
+                        token:response.data
                     }
-                }).then(response=>{
-                    if(response.data == 1){
+                }).then(response=> {
+                    if (response.data) {
                         this.setState({
-                            newPath:"/profile"
+                            newPath: "/settings"
 
-                        })}
-                    else if (response.data == 0){
-                        this.setState({
-                            newPath:"/settings"
-                        })}
-                    else {
-                        this.setState({
-                            showError: true
                         })
-                    }})
+                        //this.props.router.push('/profile')
+
+                    } else {
+                        this.setState({
+                            newPath: "/profile"
+                        })
+                        //this.props.router.push('/profile')
+                    }
+                })
                 window.location.reload();
             }
-        })
+            else { this.setState({response: "something wrong"})}
+
+            })
     }
 
     signUp = () => {
@@ -70,9 +73,7 @@ class LoginPage extends React.Component {
         })
             .then((response) => {
                 if (response.data) {
-                    this.setState({
-                        response: "Your account has been created!"
-                    })
+                    this.setState({noProblems:true,response: "Your account has been created!",})
                 } else {
                     this.setState({showError: true, response: "This username is already taken"})
                 }
@@ -106,8 +107,8 @@ class LoginPage extends React.Component {
 
         const hasRequiredDetails = !(this.state.username == "" || this.state.password == "");
 
-        return (
-
+        {if(this.state.showError) return (this.props.router.push(this.state.newPath))}
+            return(
             <div style={{margin: "auto", width: "50%", padding: "10px"}}>
                 <Redirect to={(this.state.newPath)}/>
                 <fieldset style={{width: "300px"}}>

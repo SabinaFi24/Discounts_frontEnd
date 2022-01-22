@@ -9,7 +9,25 @@ class SettingsPage extends React.Component {
     state = {
         token: "",
         organizations:[],
-        isFriend: false
+        isFriend: false,
+        items : [
+            {
+                name : "teachers",
+                marked : true,
+            },{
+                name : "artists",
+                marked : false,
+            },{
+                name : "football players",
+                marked : false,
+            },{
+                name : "puppeteers",
+                marked : true,
+            },{
+                name : "coaches",
+                marked : false,
+            }
+        ]
     }
 
     componentDidMount() {
@@ -29,31 +47,7 @@ class SettingsPage extends React.Component {
                 })
             })
     }
-    /*addOrganization = () => {
-        const cookies = new Cookies();
-        let data = new FormData();
-        if (this.state.file) {
-            data.append("file", this.state.file, this.state.file.name);
-        }
-        data.append("token", cookies.get("logged_in"));
-        data.append("content", this.state.content);
-        axios.post("http://localhost:8989/add-organization", data, {
-            headers: {'content-type': 'multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p'}
-        }).then((response) => {
-                if (response.data) {
-                    const currentOrganizations = this.state.organizations;
-                    currentOrganizations.unshift({
-                        content: this.state.content,
-                        date: "Few moments ago..."
-                    })
-                    this.setState({
-                        organiztions: currentOrganizations
-                    })
-                } else {
-                    alert("couldn't add the organization")
-                }
-            })
-    }*/
+
     onSettingsChange =(isFriend) =>{
         const cookies = new Cookies();
         let data = new FormData();
@@ -75,10 +69,25 @@ class SettingsPage extends React.Component {
             }
         })
         }
-    }
+
 
 
     render(){
+        return(
+                <div>
+
+                    {
+                        this.state.items.map(store => {
+                            return (
+                                <li style={{fontSize: "12px"}}>
+                                    {store.name}
+                                </li>
+                            );
+                        })
+                    }
+                </div>
+            )
+        /*
         return (
             <div>
                 {
@@ -86,7 +95,7 @@ class SettingsPage extends React.Component {
                         return (
                             <div style={{borderBottom: "1px solid black", padding: "10px", width: "300px"}}>
 
-                                /*<img src={"http://localhost:8989/get-post-image?postId=" +store.id} alt={"no images"}/>}*/
+                               // img src={"http://localhost:8989/get-post-image?postId=" +store.id} alt={"no images"}/>}
                                 <i style={{fontSize: "12px"}}>np
                                     {store.name}
                                 </i>
@@ -105,8 +114,9 @@ class SettingsPage extends React.Component {
                     />
                  </div>
             </div>
-        )
+        )*/
     }
+}
 
 
 export default SettingsPage;

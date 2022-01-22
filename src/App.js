@@ -44,7 +44,6 @@ class App extends React.Component {
                         this.state.isLoggedIn ?
                             <div style={{display: "flex", alignItems: "start", marginTop: "50px"}}>
                                 <NavigationBar/>
-                                <Route path={"/"} component={ProfilePage} exact={true}/>
                                 <Route path={"/profile"} component={ProfilePage} exact={true}/>
                                 <Route path={"/stores"} component={StoresPage} exact={true}/>
                                 <Route path={"/freeSearch"} component={SearchPage} exact={true}/>
