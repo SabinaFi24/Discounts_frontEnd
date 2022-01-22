@@ -9,25 +9,8 @@ class SettingsPage extends React.Component {
     state = {
         token: "",
         organizations:[],
-        isFriend: false,
-        items : [
-            {
-                name : "teachers",
-                marked : true,
-            },{
-                name : "artists",
-                marked : false,
-            },{
-                name : "football players",
-                marked : false,
-            },{
-                name : "puppeteers",
-                marked : true,
-            },{
-                name : "coaches",
-                marked : false,
-            }
-        ]
+        usersOrganizations:[],
+        isFriend: false
     }
 
     componentDidMount() {
@@ -36,16 +19,32 @@ class SettingsPage extends React.Component {
 
     getAllOrganizations = () => {
         const cookies = new Cookies();
-        axios.get("http://localhost:8989/get-stores", {
-            params: {
-                token: cookies.get("logged_in")
-            }
+        axios.get("http://localhost:8989/get-all-organizations", {
         })
             .then((response) => {
                 this.setState({
-                    stores: response.data
+                    organizations: response.data
                 })
             })
+    }
+    getOrganizationsByUser = () => {
+        const cookies = new Cookies();
+        axios.get("http://localhost:8989/get-organizations-by-user", {
+            params:{
+                token:cookies.get("logged_in")
+            }
+        }).then((response) => {
+            if(response.data){
+                this.setState({
+                    usersOrganizations: response.data
+                })
+            }
+            else {
+                this.setState({
+                    usersOrganizations:[]
+                })
+            }
+        })
     }
 
     onSettingsChange =(isFriend) =>{

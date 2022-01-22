@@ -46,20 +46,17 @@ class LoginPage extends React.Component {
                     if (response.data) {
                         this.setState({
                             newPath: "/profile"
-
                         })
-                        //this.props.router.push('/profile')
 
                     } else {
                         this.setState({
                             newPath: "/settings"
                         })
-                        //this.props.router.push('/profile')
                     }
                 })
                 window.location.reload();
             }
-            else { this.setState({response: "something wrong"})}
+            else { this.setState({showError:true,response: "something wrong"})}
 
             })
     }
@@ -73,7 +70,7 @@ class LoginPage extends React.Component {
         })
             .then((response) => {
                 if (response.data) {
-                    this.setState({noProblems:true,response: "Your account has been created!",})
+                    this.setState({response: "Your account has been created!",})
                 } else {
                     this.setState({showError: true, response: "This username is already taken"})
                 }
@@ -107,7 +104,7 @@ class LoginPage extends React.Component {
 
         const hasRequiredDetails = !(this.state.username == "" || this.state.password == "");
 
-        {if(this.state.showError) return (<Redirect to={(this.state.newPath)}/>)}
+       // {if(this.state.showError) return (<Redirect to={(this.state.newPath)}/>)}
             return(
             <div style={{margin: "auto", width: "50%", padding: "10px"}}>
                 <Redirect to={(this.state.newPath)}/>
