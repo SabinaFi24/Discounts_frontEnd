@@ -16,7 +16,6 @@ class StoresPage extends React.Component {
     }
 
     getAllStores = () => {
-        const cookies = new Cookies();
         axios.get("http://localhost:8989/get-all-stores", {
         })
             .then((response) => {

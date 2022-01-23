@@ -2,25 +2,96 @@ import './App.css';
 import * as React from "react";
 import Cookies from "universal-cookie/es6";
 import axios from "axios";
-import UserComponent from "./UserComponent";
+import Sale from "./Sale";
 
 class SearchPage extends React.Component {
-    state = {}
+    state = {
+        sales:[],
+        usersSales :[],
+        search: "",
+        border:""
+    }
+    componentDidMount() {
+        this.getAllSales()
+        this.getSaleByUser();
+    }
+    search = (e) => {
+        const search = e.target.value
+        this.setState({
+            search: search
+        })
+    }
+    filter = () => {
+        const filtered = this.state.sales.filter(sale => {
+            return (sale.content.includes(this.state.search))
+        })
+        return filtered;
+    }
 
-    render = () => {
-        return (
-            <div>
-                {
-                    this.state.followed.map((followed) => {
-                        return (
-                            <div>
-                                <UserComponent user={followed}/>
-                            </div>
-                        )
+    getAllSales=()=> {
+        axios.get("http://localhost:8989/get-all-sales")
+            .then(response => {
+                if (response.data) {
+                    this.setState({
+                        sales: response.data
                     })
+                }
+            })
+    }
+    getSaleByUser=()=>{
+        const cookies = new Cookies();
+        axios.get("http://localhost:8989/get-sales-by-user",{
+            params:{
+                token:cookies.get("logged_in")
+            }
+        }).then((response)=>{
+
+            if(response.data){
+                this.setState({usersSales:response.data})
+            }else {
+                this.setState({usersSales:[]})
+            }
+
+        })
+
+    }
+
+    doseUserGetSale =(sale)=>{
+        let get = false
+        this.state.usersSales.map((userSale)=>{
+            return(
+                <div>{
+                    userSale.id == sale.id   &&
+                    <div>{
+                        get = true
+                    }
+                    </div>}
+                </div>
+            )})
+
+        return get
+    }
+
+
+
+    render() {
+        return(
+            <div style={{textAlign:"center"}}>
+                <h1>Search For Sales Here</h1>
+                <p>
+                    <input type={"text"} onChange={this.search} placeholder={"Search here ..."}/></p>
+
+                {
+                    this.filter().map(sale => {
+                        return (
+                            <Sale data={sale} key={sale.id}
+                                  border={sale.isForAll!==0?"green":
+                                      this.doseUserGetSale(sale)?"green":"red"}/>
+                        ) })
                 }
             </div>
         )
+
     }
 }
 

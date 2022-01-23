@@ -19,7 +19,6 @@ class SettingsPage extends React.Component {
     }
 
     getAllOrganizations = () => {
-        const cookies = new Cookies();
         axios.get("http://localhost:8989/get-all-organizations", {
         })
             .then((response) => {
