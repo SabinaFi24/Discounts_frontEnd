@@ -10,11 +10,12 @@ class SettingsPage extends React.Component {
         token: "",
         organizations:[],
         usersOrganizations:[],
-        isFriend: false
+        checked: true
     }
 
     componentDidMount() {
         this.getAllOrganizations()
+        this.getOrganizationsByUser()
     }
 
     getAllOrganizations = () => {
@@ -22,9 +23,14 @@ class SettingsPage extends React.Component {
         axios.get("http://localhost:8989/get-all-organizations", {
         })
             .then((response) => {
-                this.setState({
-                    organizations: response.data
-                })
+                if(response.data.length>0){
+                    this.setState({
+                        organizations: response.data
+                    })
+                }else{
+                    this.setState({organizations:[]})
+                }
+
             })
     }
     getOrganizationsByUser = () => {
@@ -47,73 +53,58 @@ class SettingsPage extends React.Component {
         })
     }
 
-    onSettingsChange =(isFriend) =>{
+    changeSettings =(organizationId) =>{
         const cookies = new Cookies();
         let data = new FormData();
         data.append("token", cookies.get("logged_in"));
-        data.append("isFriend", this.state.isFriend);
-        axios.post("http://localhost:8989/add-organization", data, {
-            headers: {'content-type': 'multipart/form-data;boundary=gc0p4Jq0M2Yt08jU534c0p'}
-        }).then((response) => {
-            if (response.data) {
-                const currentOrganizations = this.state.organizations;
-                currentOrganizations.unshift({
-                    token: this.state.token,
-                })
-                this.setState({
-                    organizations: currentOrganizations
-                })
-            } else {
-                alert("couldn't add the organization")
-            }
-        })
-        }
+        data.append("organizationId",organizationId)
+        axios.post("http://localhost:8989/settings-change",data)
+            .then((response)=>{
+                this.getOrganizationsByUser();
+            })
 
+    }
 
+    doseUserInOrganization=(organizationId)=>{
+        let belong = false
+        console.log("change is "+this.state.change)
+
+        this.state.usersOrganizations.map((organization)=>{
+            return(
+                <div>{
+                    organization.id == organizationId  &&
+                    <div>{
+                        belong = true
+                    }</div>
+
+                }
+                </div>
+            )})
+        return belong
+    }
 
     render(){
         return(
-                <div>
+            <div style={{textAlign:"center"}}>
+                <h2>Select the organizations that belong to you :</h2>
+                {this.state.organizations.map(organization => {
+                    return (
+                        <div>
+                             <input type="checkbox"
+                                    onChange={this.changeSettings()}
+                                    value={organization.id}
+                                    checked={this.doseUserInOrganization()}
+                             />
+                             <label>{organization.name}</label>
 
-                    {
-                        this.state.items.map(store => {
-                            return (
-                                <li style={{fontSize: "12px"}}>
-                                    {store.name}
-                                </li>
-                            );
-                        })
-                    }
-                </div>
-            )
-        /*
-        return (
-            <div>
-                {
-                    this.state.stores.map(store => {
-                        return (
-                            <div style={{borderBottom: "1px solid black", padding: "10px", width: "300px"}}>
+                        </div>
 
-                               // img src={"http://localhost:8989/get-post-image?postId=" +store.id} alt={"no images"}/>}
-                                <i style={{fontSize: "12px"}}>np
-                                    {store.name}
-                                </i>
-                                <h1><AiFillLike color={"blue"}/></h1>
-
-                            </div>
-                        )
-                    })
+                    )
+                })
                 }
-
-                <div style={{marginTop: "30px"}}>
-                    <input type="radio"
-                           name="isFriend"
-                        onChange={this.onSettingsChange}
-                        value={this.state.isFriend}
-                    />
-                 </div>
             </div>
-        )*/
+        )
+
     }
 }
 
