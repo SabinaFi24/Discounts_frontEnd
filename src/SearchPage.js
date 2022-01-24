@@ -2,7 +2,8 @@ import './App.css';
 import * as React from "react";
 import Cookies from "universal-cookie/es6";
 import axios from "axios";
-import Sale from "./Sale";
+import SaleColor from "./SaleColor";
+
 
 class SearchPage extends React.Component {
     state = {
@@ -29,13 +30,17 @@ class SearchPage extends React.Component {
     }
 
     getAllSales=()=> {
-        axios.get("http://localhost:8989/get-all-sales")
-            .then(response => {
-                if (response.data) {
+        axios.get("\"http://localhost:8989/get-all-sales", {
+        })
+            .then((response) => {
+                if(response.data.length>0){
                     this.setState({
                         sales: response.data
                     })
+                }else{
+                    this.setState({sales:[]})
                 }
+
             })
     }
     getSaleByUser=()=>{
@@ -77,16 +82,16 @@ class SearchPage extends React.Component {
     render() {
         return(
             <div style={{textAlign:"center"}}>
-                <h1>Search For Sales Here</h1>
+                <h1>Search Sales:</h1>
                 <p>
                     <input type={"text"} onChange={this.search} placeholder={"Search here ..."}/></p>
 
                 {
-                    this.filter().map(sale => {
+                    this.filter().map(sales => {
                         return (
-                            <Sale data={sale} key={sale.id}
-                                  border={sale.isForAll!==0?"green":
-                                      this.doseUserGetSale(sale)?"green":"red"}/>
+                            <SaleColor data={sales} key={sales.id}
+                                  border={sales.isForAll !==0?"green":
+                                      this.doseUserGetSale(sales)?"green":"red"}/>
                         ) })
                 }
             </div>
