@@ -63,6 +63,14 @@ class SettingsPage extends React.Component {
             })
 
     }
+    option =(event)=>{
+       const ans = this.state.checked
+        if(ans == false){
+            this.setState({
+            checked : true
+        })}
+
+    }
 
     doseUserInOrganization=(organizationId)=>{
         let belong = false
@@ -92,7 +100,7 @@ class SettingsPage extends React.Component {
                              <input type="checkbox"
                                     onChange={this.changeSettings()}
                                     value={organization.id}
-                                    checked={this.doseUserInOrganization()}
+                                    checked={this.option()}
                              />
                              <label>{organization.name}</label>
 
