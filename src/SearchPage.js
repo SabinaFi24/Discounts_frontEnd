@@ -30,7 +30,7 @@ class SearchPage extends React.Component {
     }
 
     getAllSales=()=> {
-        axios.get("\"http://localhost:8989/get-all-sales", {
+        axios.get("http://localhost:8989/get-all-sales", {
         })
             .then((response) => {
                 if(response.data.length>0){

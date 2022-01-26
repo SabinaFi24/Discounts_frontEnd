@@ -73,6 +73,7 @@ class App extends React.Component {
                                                 <Route path={"/stores"} component={StoresPage} exact={true}/>
                                                 <Route path={"/freeSearch"} component={SearchPage} exact={true}/>
                                                 <Route path={"/settings"} component={SettingsPage} exact={true}/>
+                                                <Route path={"/store/:storeId"} component={StoresPage}/>
                                             </div>
                                             :
                                             <div style={{display: "flex", alignItems: "start", marginTop: "50px"}}>
@@ -82,6 +83,7 @@ class App extends React.Component {
                                                 <Route path={"/stores"} component={StoresPage} exact={true}/>
                                                 <Route path={"/freeSearch"} component={SearchPage} exact={true}/>
                                                 <Route path={"/settings"} component={SettingsPage} exact={true} />
+                                                <Route path={"/store/:storeId"} component={StoresPage}/>
                                             </div>
                                         }
                                 </div>
