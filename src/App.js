@@ -9,6 +9,7 @@ import LoginPage from "./LoginPage";
 import Cookies from "universal-cookie";
 import SearchPage from "./SearchPage";
 import SettingsPage from "./SettingsPage";
+import DashboardPage from "./DashboardPage";
 import axios from "axios";
 import {Redirect, Route} from "react-router";
 
@@ -73,7 +74,8 @@ class App extends React.Component {
                                                 <Route path={"/stores"} component={StoresPage} exact={true}/>
                                                 <Route path={"/freeSearch"} component={SearchPage} exact={true}/>
                                                 <Route path={"/settings"} component={SettingsPage} exact={true}/>
-                                                <Route path={"/store/:storeId"} component={StoresPage}/>
+                                                <Route path={"/dashboard"} component={DashboardPage} exact={true}/>
+                                                <Route path={"/store/:storeId"} component={StoresPage} exact={true}/>
                                             </div>
                                             :
                                             <div style={{display: "flex", alignItems: "start", marginTop: "50px"}}>
@@ -83,7 +85,8 @@ class App extends React.Component {
                                                 <Route path={"/stores"} component={StoresPage} exact={true}/>
                                                 <Route path={"/freeSearch"} component={SearchPage} exact={true}/>
                                                 <Route path={"/settings"} component={SettingsPage} exact={true} />
-                                                <Route path={"/store/:storeId"} component={StoresPage}/>
+                                                <Route path={"/dashboard"} component={DashboardPage} exact={true}/>
+                                                <Route path={"/store/:storeId"} component={StoresPage} exact={true}/>
                                             </div>
                                         }
                                 </div>
