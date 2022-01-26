@@ -95,7 +95,7 @@ class SearchPage extends React.Component {
 
                             <SaleColor data={sale}
                                   key={sale.id}
-                                  border={sale.isForAll=1?"green":
+                                  border={sale.isForAll!==0?"green":
                                       this.doseUserGetSale(sale)?"green":"red"}/>
                         ) })
                 }

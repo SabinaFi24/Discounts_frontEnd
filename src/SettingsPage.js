@@ -110,7 +110,7 @@ class SettingsPage extends React.Component {
                                     value={organization.id}
                                     checked={this.option()}
                              />
-                             <label>{organization.name}</label>
+                            <label>{organization.name}</label>
 
                         </div>
 

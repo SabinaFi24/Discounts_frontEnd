@@ -7,7 +7,7 @@ class SaleColor extends React.Component {
         return (
             <div>
                 <div style={{
-                    border: "slategray solid 5px",
+                    border: "orangered dotted 5px",
                     width: "50%",
                     textAlign: "center",
                     marginBottom: "1%",
