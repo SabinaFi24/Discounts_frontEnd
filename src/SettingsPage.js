@@ -108,7 +108,7 @@ class SettingsPage extends React.Component {
                              <input type="checkbox"
                                     onChange={this.changeSettings}
                                     value={organization.id}
-                                    checked={this.doseUserInOrganization()}
+                                    checked={this.option()}
                              />
                              <label>{organization.name}</label>
 

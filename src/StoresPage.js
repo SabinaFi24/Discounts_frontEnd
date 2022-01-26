@@ -1,7 +1,8 @@
 import './App.css';
 import * as React from "react";
 import axios from "axios";
-import saleColor from "./saleColor";
+import SaleColor from "./SaleColor";
+import storeComponent from "./storeComponent";
 
 class StoresPage extends React.Component{
     state = {
@@ -35,7 +36,7 @@ class StoresPage extends React.Component{
         })
     }
     getStoreName =(storeId)=>{
-        axios.get("http://localhost:8989/get-store-name-by-store-id", {
+        axios.get("http://localhost:8989/get-store-by-store-id", {
             params :
                 {
                     storeId:storeId
@@ -58,7 +59,7 @@ class StoresPage extends React.Component{
                         return(
                             <div>
                                 <div>
-                                    <saleColor data={sale}/>
+                                    <storeComponent data={sale}/>
                                 </div>
 
                             </div>
