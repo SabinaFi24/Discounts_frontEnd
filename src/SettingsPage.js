@@ -10,7 +10,7 @@ class SettingsPage extends React.Component {
         token: "",
         organizations:[],
         usersOrganizations:[],
-        checked: true
+        checked: false
     }
 
     componentDidMount() {
@@ -65,7 +65,8 @@ class SettingsPage extends React.Component {
     }
     option =(event)=>{
        const ans = this.state.checked
-        if(ans == false){
+
+        if(ans == false) {
             this.setState({
             checked : true
         })}
@@ -74,8 +75,6 @@ class SettingsPage extends React.Component {
 
     doseUserInOrganization=(organizationId)=>{
         let belong = false
-        console.log("change is "+this.state.change)
-
         this.state.usersOrganizations.map((organization)=>{
             return(
                 <div>{
@@ -85,22 +84,31 @@ class SettingsPage extends React.Component {
                     }</div>
 
                 }
+
                 </div>
+
             )})
+        const ans = this.state.checked
+
+        if(ans == false) {
+            this.setState({
+                checked : true
+            })}
         return belong
     }
 
     render(){
         return(
             <div style={{textAlign:"center"}}>
-                <h2>Select the organizations that belong to you :</h2>
+                <h1>organizations:</h1>
+                <h3>Please select the organizations that are relevant to you </h3>
                 {this.state.organizations.map(organization => {
                     return (
                         <div>
                              <input type="checkbox"
-                                    onChange={this.changeSettings()}
+                                    onChange={this.changeSettings}
                                     value={organization.id}
-                                    checked={this.option()}
+                                    checked={this.doseUserInOrganization()}
                              />
                              <label>{organization.name}</label>
 

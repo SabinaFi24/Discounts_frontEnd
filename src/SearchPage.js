@@ -84,14 +84,19 @@ class SearchPage extends React.Component {
             <div style={{textAlign:"center"}}>
                 <h1>Search Sales:</h1>
                 <p>
-                    <input type={"text"} onChange={this.search} placeholder={"Search here ..."}/></p>
+                    <input type="text"
+                           onChange={this.search}
+                           placeholder={"Search here ..."}/>
+                </p>
 
                 {
-                    this.filter().map(sales => {
+                    this.filter().map(sale => {
                         return (
-                            <SaleColor data={sales} key={sales.id}
-                                  border={sales.isForAll !==0?"green":
-                                      this.doseUserGetSale(sales)?"green":"red"}/>
+
+                            <SaleColor data={sale}
+                                  key={sale.id}
+                                  border={sale.isForAll=1?"green":
+                                      this.doseUserGetSale(sale)?"green":"red"}/>
                         ) })
                 }
             </div>

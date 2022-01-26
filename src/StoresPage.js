@@ -1,106 +1,28 @@
-/*import './App.css';
+import './App.css';
 import * as React from "react";
 import axios from "axios";
-import Cookies from "universal-cookie/es6";
-import {Redirect, Route} from "react-router";
+import saleColor from "./saleColor";
 
-class StoresPage extends React.Component {
+class StoresPage extends React.Component{
     state = {
-        stores: [],
-        redirect: false,
-        disable : true,
-        currentStoreName: ""
-    }
-
-    componentDidMount() {
-        this.getAllStores()
-    }
-
-    getAllStores = () => {
-        axios.get("http://localhost:8989/get-all-stores", {
-        })
-            .then((response) => {
-                if(response.data.length>0){
-                    this.setState({
-                        stores: response.data
-                    })
-                }else{
-                    this.setState({stores:[]})
-                }
-
-            })
-    }
-    setRedirect = (e) => {
-        this.setState({
-                redirect: true,
-                currentStoreName: e.target.name
-            }
-        )
-    }
-
-    redirect = () => {
-        if(this.state.redirect)
-            return<Redirect to={{
-                pathname: '/stores',
-                state:{ store: this.state.currentStoreName }
-            }}/>
-    }
-    sabina =()=>{
-        const test=this.state.disable
-        this.setState({
-            disable : !test
-        })
-    }
-
-    render() {
-        return (
-            <div>
-                {this.state.stores.map(store => {
-                    return (
-                        <ul>
-                            <button style={{border :"white"}} onClick={this.setRedirect} >{store.name} </button>
-                        </ul>
-
-
-                    )
-                })
-                }
-            </div>
-        )
-    }
-}
-
-export default StoresPage;*/
-import React from "react";
-import axios from "axios";
-import Sale from "./Sale";
-import {AiOutlineShop} from "react-icons/ai";
-
-
-
-class StorePage extends React.Component{
-    state = {
-        id:"",
+        storeId:"",
         sales :[],
         storeName:""
 
     }
     componentDidMount() {
-        const id =this.props.match.params.storeId;
-        this.getSales(id)
-        this.getStoreName(id)
+        const storeId =this.props.match.params.storeId;
+        this.getSales(storeId)
+        this.getStoreName(storeId)
     }
 
-    getSales =(id)=>{
-        console.log("store number is:"+id);
+    getSales =(storeId)=>{
         axios.get("http://localhost:8989/get-sales-by-store-id", {
-            params :
-                {
-                    storeId:id
+            params : {
+                    storeId:storeId
                 }}).then((response)=>{
             const sales=response.data;
             if (response.data){
-                console.log("data is: "+response.data)
                 this.setState({
                     sales:sales
                 });
@@ -112,11 +34,11 @@ class StorePage extends React.Component{
             }
         })
     }
-    getStoreName =(id)=>{
-        axios.get("http://localhost:8989/settings-change", {
+    getStoreName =(storeId)=>{
+        axios.get("http://localhost:8989/get-store-name-by-store-id", {
             params :
                 {
-                    storeId:id
+                    storeId:storeId
                 }}).then((response)=>{
             if (response.data){
                 this.setState({
@@ -129,7 +51,7 @@ class StorePage extends React.Component{
     render(){
         return(
             <div style={{textAlign:"center"}}>
-                <h1>{this.state.storeName.toUpperCase()} <AiOutlineShop/></h1>
+                <h1>{this.state.storeName}</h1>
 
                 {this.state.sales.length>0?
                     this.state.sales.map((sale)=>{
@@ -138,13 +60,11 @@ class StorePage extends React.Component{
                                 <div>
                                     <saleColor data={sale}/>
                                 </div>
-                                <p>
 
-                                </p>
                             </div>
                         )
                     }):
-                    <div>This store don't offer any promotions </div>
+                    <div>The store has no sales yet.. </div>
                 }
 
             </div>
@@ -152,4 +72,4 @@ class StorePage extends React.Component{
     }
 }
 
-export default StorePage;
+export default StoresPage;
