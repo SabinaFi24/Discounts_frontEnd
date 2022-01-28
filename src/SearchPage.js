@@ -10,7 +10,7 @@ class SearchPage extends React.Component {
         sales:[],
         usersSales :[],
         search: "",
-        border: "orangered dotted 5px"
+        border: ""
     }
     componentDidMount() {
         this.getAllSales()
@@ -35,7 +35,7 @@ class SearchPage extends React.Component {
         axios.get("http://localhost:8989/get-all-sales", {
         })
             .then((response) => {
-                if(response.data.length>0){
+                if(response.data){
                     this.setState({
                         sales: response.data
                     })

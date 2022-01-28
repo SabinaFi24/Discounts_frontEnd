@@ -18,8 +18,7 @@ class SettingsPage extends React.Component {
     }
 
     getAllOrganizations = () => {
-        axios.get("http://localhost:8989/get-all-organizations", {
-        })
+        axios.get("http://localhost:8989/get-all-organizations")
             .then((response) => {
                 if(response.data.length>0){
                     this.setState({
@@ -82,12 +81,14 @@ class SettingsPage extends React.Component {
     }
 
     render(){
+
         return(
             <div style={{textAlign:"center"}}>
                 <h1>organizations:</h1>
                 <h3>Please select the organizations that are relevant to you </h3>
                 {this.state.organizations.map(organization => {
                     return (
+
                         <div>
                              <input type="checkbox"
                                     onChange={() => {
@@ -102,7 +103,7 @@ class SettingsPage extends React.Component {
                                      })
                              }}
                                     value={organization.id}
-                                    checked={this.doseUserInOrganization()}
+                                    checked={this.doseUserInOrganization(organization.id)}
                              />
                             <label>{organization.name}</label>
 
