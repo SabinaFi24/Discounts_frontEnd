@@ -7,8 +7,8 @@ import Dropzone from "react-dropzone";
 
 class SettingsPage extends React.Component {
     state = {
-        organizations:[],
-        usersOrganizations:[],
+        organizations: [],
+        userOrganizations: [],
         checked: true
     }
 
@@ -20,15 +20,16 @@ class SettingsPage extends React.Component {
     getAllOrganizations = () => {
         axios.get("http://localhost:8989/get-all-organizations")
             .then((response) => {
-                if(response.data.length>0){
+                if (response.data.length > 0) {
                     this.setState({
                         organizations: response.data
                     })
-                }else{
-                    this.setState({organizations:[]})
+                } else {
+                    this.setState({organizations: []})
                 }
 
             })
+
     }
     getOrganizationsByUser = () => {
         const cookies = new Cookies();
@@ -37,35 +38,18 @@ class SettingsPage extends React.Component {
                 token:cookies.get("logged_in")
             }
         }).then((response) => {
-            if(response.data){
-                this.setState({
-                    usersOrganizations: response.data
-                })
-            }
-            else {
-                this.setState({
-                    usersOrganizations:[]
-                })
+            if (response.data) {
+                this.setState({userOrganizations: response.data})
+            } else {
+                this.setState({userOrganizations: []})
             }
         })
+
+
     }
-
-    /*changeSettings =(organizationId) =>{
-        const cookies = new Cookies();
-        let data = new FormData();
-        data.append("token", cookies.get("logged_in"));
-        data.append("organizationId",organizationId)
-        axios.post("http://localhost:8989/settings-change",data)
-            .then((response)=>{
-                this.getOrganizationsByUser();
-            })
-
-    }*/
-
-    doseUserInOrganization=(organizationId)=>{
+    doseUserInOrganization = (organizationId) => {
         let belong = false
-
-        this.state.usersOrganizations.map((organization) => {
+        this.state.userOrganizations.map((organization) => {
             return (
                 <div>{
                     organization.id == organizationId &&
@@ -80,28 +64,29 @@ class SettingsPage extends React.Component {
         return belong
     }
 
-    render(){
+    changeSettings =(organizationId) => {
+        let cookies = new Cookies();
+        let data = new FormData();
+        data.append("token", cookies.get("logged_in"))
+        data.append("id", organizationId)
+        axios.post("http://127.0.0.1:8989/change-setting", data)
+            .then((response) => {
+                this.getOrganizationsByUser();
 
+            })
+    }
+
+
+    render(){
         return(
             <div style={{textAlign:"center"}}>
                 <h1>organizations:</h1>
                 <h3>Please select the organizations that are relevant to you </h3>
                 {this.state.organizations.map(organization => {
                     return (
-
                         <div>
                              <input type="checkbox"
-                                    onChange={() => {
-                                 let cookies = new Cookies();
-                                 let data = new FormData();
-                                 data.append("token", cookies.get("logged_in"))
-                                 data.append("id", organization.id)
-                                 axios.post("http://127.0.0.1:8989/change-setting", data)
-                                     .then((response) => {
-                                         this.getOrganizationsByUser();
-
-                                     })
-                             }}
+                                    onChange={this.changeSettings(organization.id)}
                                     value={organization.id}
                                     checked={this.doseUserInOrganization(organization.id)}
                              />

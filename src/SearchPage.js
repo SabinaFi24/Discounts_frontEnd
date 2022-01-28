@@ -14,7 +14,7 @@ class SearchPage extends React.Component {
     }
     componentDidMount() {
         this.getAllSales()
-        //this.getSaleByUser();
+        this.getSaleByUser();
     }
 
     search = (e) => {
@@ -44,8 +44,8 @@ class SearchPage extends React.Component {
                 }
 
             })
-
-
+    }
+    getSaleByUser=()=>{
         const cookies = new Cookies();
         axios.get("http://localhost:8989/get-sales-by-user",{
             params:{
@@ -97,7 +97,7 @@ class SearchPage extends React.Component {
                         return (
                             <SaleColor data={sale}
                                        key={sale.id}
-                                       border={sale.isForAll = 1 ? "blue" : this.doseUserGetSale(sale) ? "green" : "red"}/>
+                                       border={sale.isForAll != 0 ? "green" : this.doseUserGetSale(sale) ? "green" : "red"}/>
 
                         ) })
                 }
