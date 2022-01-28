@@ -96,7 +96,7 @@ class SearchPage extends React.Component {
                     this.filter().map(sale => {
                         return (
                             <SaleColor data={sale}
-                                       key={sale.saleId}
+                                       key={sale.id}
                                        border={sale.isForAll = 1 ? "blue" : this.doseUserGetSale(sale) ? "green" : "red"}/>
 
                         ) })

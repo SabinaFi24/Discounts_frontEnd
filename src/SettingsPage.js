@@ -7,7 +7,6 @@ import Dropzone from "react-dropzone";
 
 class SettingsPage extends React.Component {
     state = {
-        token: "",
         organizations:[],
         usersOrganizations:[],
         checked: true
@@ -52,7 +51,7 @@ class SettingsPage extends React.Component {
         })
     }
 
-    changeSettings =(organizationId) =>{
+    /*changeSettings =(organizationId) =>{
         const cookies = new Cookies();
         let data = new FormData();
         data.append("token", cookies.get("logged_in"));
@@ -62,38 +61,23 @@ class SettingsPage extends React.Component {
                 this.getOrganizationsByUser();
             })
 
-    }
-    option =(event)=>{
-       const ans = this.state.checked
-
-        if(ans == false) {
-            this.setState({
-            checked : true
-        })}
-
-    }
+    }*/
 
     doseUserInOrganization=(organizationId)=>{
         let belong = false
-        this.state.usersOrganizations.map((organization)=>{
-            return(
+
+        this.state.usersOrganizations.map((organization) => {
+            return (
                 <div>{
-                    organization.id == organizationId  &&
+                    organization.id == organizationId &&
                     <div>{
                         belong = true
                     }</div>
 
                 }
-
                 </div>
-
-            )})
-        const ans = this.state.checked
-
-        if(ans == false) {
-            this.setState({
-                checked : true
-            })}
+            )
+        })
         return belong
     }
 
@@ -106,8 +90,18 @@ class SettingsPage extends React.Component {
                     return (
                         <div>
                              <input type="checkbox"
-                                    onChange={this.changeSettings()}
-                                    value={organization.organizationId}
+                                    onChange={() => {
+                                 let cookies = new Cookies();
+                                 let data = new FormData();
+                                 data.append("token", cookies.get("logged_in"))
+                                 data.append("id", organization.id)
+                                 axios.post("http://127.0.0.1:8989/change-setting", data)
+                                     .then((response) => {
+                                         this.getOrganizationsByUser();
+
+                                     })
+                             }}
+                                    value={organization.id}
                                     checked={this.doseUserInOrganization()}
                              />
                             <label>{organization.name}</label>

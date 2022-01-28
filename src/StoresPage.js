@@ -6,21 +6,21 @@ import storeComponent from "./storeComponent";
 
 class StoresPage extends React.Component{
     state = {
-        storeId:"",
+        id:"",
         sales :[],
         storeName:""
 
     }
     componentDidMount() {
-        const storeId =this.props.match.params.storeId;
-        this.getSales(storeId)
-        this.getStoreName(storeId)
+        const id =this.props.match.params.id;
+        this.getSales(id)
+        this.getStoreName(id)
     }
 
-    getSales =(storeId)=>{
+    getSales =(id)=>{
         axios.get("http://localhost:8989/get-sales-by-store-id", {
             params : {
-                    storeId:storeId
+                id:id
                 }}).then((response)=>{
             const sales=response.data;
             if (response.data){
@@ -35,11 +35,11 @@ class StoresPage extends React.Component{
             }
         })
     }
-    getStoreName =(storeId)=>{
+    getStoreName =(id)=>{
         axios.get("http://localhost:8989/get-store-by-store-id", {
             params :
                 {
-                    storeId:storeId
+                    id:id
                 }}).then((response)=>{
             if (response.data){
                 this.setState({
