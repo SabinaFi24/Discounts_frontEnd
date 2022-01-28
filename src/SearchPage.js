@@ -10,18 +10,20 @@ class SearchPage extends React.Component {
         sales:[],
         usersSales :[],
         search: "",
-        border:""
+        border: "orangered dotted 5px"
     }
     componentDidMount() {
         this.getAllSales()
-        this.getSaleByUser();
+        //this.getSaleByUser();
     }
+
     search = (e) => {
         const search = e.target.value
         this.setState({
             search: search
         })
     }
+
     filter = () => {
         const filtered = this.state.sales.filter(sale => {
             return (sale.content.includes(this.state.search))
@@ -42,8 +44,8 @@ class SearchPage extends React.Component {
                 }
 
             })
-    }
-    getSaleByUser=()=>{
+
+
         const cookies = new Cookies();
         axios.get("http://localhost:8989/get-sales-by-user",{
             params:{
@@ -86,17 +88,17 @@ class SearchPage extends React.Component {
                 <p>
                     <input type="text"
                            onChange={this.search}
-                           placeholder={"Search here ..."}/>
+                           placeholder={"Search here ..."}
+                    />
                 </p>
 
                 {
                     this.filter().map(sale => {
                         return (
-
                             <SaleColor data={sale}
-                                  key={sale.id}
-                                  border={sale.isForAll!==0?"green":
-                                      this.doseUserGetSale(sale)?"green":"red"}/>
+                                       key={sale.saleId}
+                                       border={sale.isForAll = 1 ? "blue" : this.doseUserGetSale(sale) ? "green" : "red"}/>
+
                         ) })
                 }
             </div>

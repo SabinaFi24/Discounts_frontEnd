@@ -10,7 +10,7 @@ class SettingsPage extends React.Component {
         token: "",
         organizations:[],
         usersOrganizations:[],
-        checked: false
+        checked: true
     }
 
     componentDidMount() {
@@ -106,9 +106,9 @@ class SettingsPage extends React.Component {
                     return (
                         <div>
                              <input type="checkbox"
-                                    onChange={this.changeSettings}
-                                    value={organization.id}
-                                    checked={this.option()}
+                                    onChange={this.changeSettings()}
+                                    value={organization.organizationId}
+                                    checked={this.doseUserInOrganization()}
                              />
                             <label>{organization.name}</label>
 
