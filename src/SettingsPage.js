@@ -7,66 +7,59 @@ import Dropzone from "react-dropzone";
 
 class SettingsPage extends React.Component {
     state = {
-        organizations: [],
         userOrganizations: [],
-       // checked: true
+        organizations:[],
+        checked : true
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.getAllOrganizations()
         this.getOrganizationsByUser()
     }
-
-    getAllOrganizations = () => {
+    getAllOrganizations =() =>{
         axios.get("http://localhost:8989/get-all-organizations")
             .then((response) => {
                 if (response.data.length > 0) {
                     this.setState({
                         organizations: response.data
                     })
-                } else {
-                    this.setState({organizations: []})
                 }
-
             })
-
     }
     getOrganizationsByUser = () => {
         const cookies = new Cookies();
         axios.get("http://localhost:8989/get-organizations-by-user", {
-            params:{
-                token:cookies.get("logged_in")
-            }
-        }).then((response) => {
-            if (response.data) {
-                this.setState({userOrganizations: response.data})
-            } else {
-                this.setState({userOrganizations: []})
+            params: {
+                token: cookies.get("logged_in")
             }
         })
-
-
-    }
-    changeSettings = (e) => {
-        const organizationId = e.target.id;
-            let cookies = new Cookies();
-            let data = new FormData();
-            data.append("token", cookies.get("logged_in"))
-            data.append("id", organizationId)
-            axios.post("http://127.0.0.1:8989/change-setting", data)
-                .then((response) => {
-                    this.getOrganizationsByUser();
-
-                })
+            .then((response) => {
+                if(response.data) {
+                    this.setState({
+                        userOrganizations: response.data
+                    })
+                }
+            })
     }
 
-    doseUserInOrganization = (e) =>{
-        const organizationId = e.target.id
+    changeSettings = (id) => {
+        let cookies = new Cookies();
+        let data = new FormData();
+        data.append("token", cookies.get("logged_in"))
+        data.append("organizationId", id)
+        axios.post("http://localhost:8989/settings-change", data)
+            .then((response) => {
+                this.getOrganizationsByUser();
+
+            })
+    }
+
+    doseUserInOrganization = (id) =>{
         let belong = false
         this.state.userOrganizations.map((organization) => {
             return (
                 <div>{
-                    organization.id == organizationId &&
+                    organization.id == id &&
                     <div>{
                         belong = true
                     }</div>
@@ -76,23 +69,21 @@ class SettingsPage extends React.Component {
         })
         return belong
     }
-
-    render(){
-        return(
-            <div style={{textAlign:"center"}}>
-                <h1>organizations:</h1>
-                <h3>Please select the organizations that are relevant to you </h3>
+    render() {
+        return (
+            <div style={{textAlign: "center"}}>
+                <h1>Settings</h1>
+                <h2>Select the organizations that belong to you :</h2>
                 {this.state.organizations.map(organization => {
                     return (
-                        <div>
-                             <input type="checkbox"
-                                    value={organization.id}
-                                    checked={this.doseUserInOrganization}
-                                    onClick={this.changeSettings}
-
-                             />
-                            <label>{organization.name}</label>
-
+                        <div className={"settings"}>
+                            <p>
+                                <input type={"checkbox"}
+                                       onClick={this.changeSettings}
+                                       value={organization.id}
+                                       checked={this.doseUserInOrganization(organization.id)}/>
+                                <label>{organization.name}</label>
+                            </p>
                         </div>
 
                     )

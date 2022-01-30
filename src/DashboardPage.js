@@ -16,7 +16,7 @@ class DashboardPage extends React.Component {
 
     getSales = () => {
         const cookies = new Cookies();
-        axios.get("localhost:8989/get-sales-by-user", {
+        axios.get("http://localhost:8989/get-sales-by-user", {
             params: {
                 token: cookies.get("logged_in")
             }
@@ -35,7 +35,7 @@ class DashboardPage extends React.Component {
     render() {
         return (
             <div style={{textAlign: "center"}}>
-                <h1>Dashboard Page</h1>
+                <h1>Dashboard</h1>
                 <h3>Your Sales: </h3>
                 {
                     this.state.sales.length > 0 ?
@@ -45,7 +45,8 @@ class DashboardPage extends React.Component {
                                     <Sale data={sale}/>
                                 </div>
                             )
-                        }) :
+                        })
+                        :
                         <div>NO SALES</div>
 
                 }
