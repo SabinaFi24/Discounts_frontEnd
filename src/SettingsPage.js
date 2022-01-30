@@ -59,7 +59,7 @@ class SettingsPage extends React.Component {
         this.state.userOrganizations.map((organization) => {
             return (
                 <div>{
-                    organization.id == id &&
+                    organization.id == id.id &&
                     <div>{
                         belong = true
                     }</div>
