@@ -31,7 +31,7 @@ class App extends React.Component {
         ws.onmessage = (message) => {
             const data = JSON.parse(message.data);
             this.setState({
-                textFromWebsocket : data.text
+                textFromWebsocket : data.content
             })
         }
         if (cookies.get("logged_in")) {
@@ -103,7 +103,7 @@ class App extends React.Component {
 
                 <div>
                     {this.state.textFromWebsocket.length > 0 &&
-                    alert("There is available sales : " + this.state.textFromWebsocket)}
+                    alert("Attention! there are new sales for you, or might be ended today: " + this.state.textFromWebsocket)}
                 </div>
             </div>
         )

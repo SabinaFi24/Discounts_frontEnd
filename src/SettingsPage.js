@@ -9,7 +9,7 @@ class SettingsPage extends React.Component {
     state = {
         organizations: [],
         userOrganizations: [],
-        checked: true
+       // checked: true
     }
 
     componentDidMount() {
@@ -47,7 +47,21 @@ class SettingsPage extends React.Component {
 
 
     }
-    doseUserInOrganization = (organizationId) => {
+    changeSettings = (e) => {
+        const organizationId = e.target.id;
+            let cookies = new Cookies();
+            let data = new FormData();
+            data.append("token", cookies.get("logged_in"))
+            data.append("id", organizationId)
+            axios.post("http://127.0.0.1:8989/change-setting", data)
+                .then((response) => {
+                    this.getOrganizationsByUser();
+
+                })
+    }
+
+    doseUserInOrganization = (e) =>{
+        const organizationId = e.target.id
         let belong = false
         this.state.userOrganizations.map((organization) => {
             return (
@@ -56,26 +70,12 @@ class SettingsPage extends React.Component {
                     <div>{
                         belong = true
                     }</div>
-
                 }
                 </div>
             )
         })
         return belong
     }
-
-    changeSettings =(organizationId) => {
-        let cookies = new Cookies();
-        let data = new FormData();
-        data.append("token", cookies.get("logged_in"))
-        data.append("id", organizationId)
-        axios.post("http://127.0.0.1:8989/change-setting", data)
-            .then((response) => {
-                this.getOrganizationsByUser();
-
-            })
-    }
-
 
     render(){
         return(
@@ -86,9 +86,10 @@ class SettingsPage extends React.Component {
                     return (
                         <div>
                              <input type="checkbox"
-                                    onChange={this.changeSettings(organization.id)}
                                     value={organization.id}
-                                    checked={this.doseUserInOrganization(organization.id)}
+                                    checked={this.doseUserInOrganization}
+                                    onClick={this.changeSettings}
+
                              />
                             <label>{organization.name}</label>
 
