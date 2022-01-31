@@ -13,10 +13,10 @@ class SaleColor extends React.Component {
                     marginBottom: "1%",
                     marginLeft: "25%"
                 }}>
-                    <h4 style={{color: ""}}> Store : {this.props.data.store.name} </h4>
-                    <h4 style={{color: this.props.border}}>{this.props.data.content}</h4>
+                    <h3 style={{color: "black"}}>  {this.props.data.store.name} sales: </h3>
+                    <h4 style={{color: this.props.border}}>  {this.props.data.content}</h4></div>
+
                 </div>
-            </div>
         )
     }
 }

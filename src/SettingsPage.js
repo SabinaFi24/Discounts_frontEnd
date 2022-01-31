@@ -2,8 +2,6 @@ import './App.css';
 import * as React from "react";
 import Cookies from "universal-cookie/es6";
 import axios from "axios";
-import {AiFillLike} from "react-icons/ai";
-import Dropzone from "react-dropzone";
 
 class SettingsPage extends React.Component {
     state = {

@@ -18,9 +18,8 @@ class SearchPage extends React.Component {
     }
 
     search = (e) => {
-        const search = e.target.value
         this.setState({
-            search: search
+            search: e.target.value
         })
     }
 
@@ -63,21 +62,13 @@ class SearchPage extends React.Component {
 
     }
 
-    doseUserGetSale =(sale)=>{
-        let get = false
-        this.state.usersSales.map((userSale)=>{
-            return(
-                <div>{
-                    userSale.id == sale.id   &&
-                    <div>{
-                        get = true
-                    }
-                    </div>}
-                </div>
-            )})
-
-        return get
+    doseUserGetSale =(id)=>{
+        const userSale = this.state.usersSales.find(sales => {
+            return sales.id == id;
+        })
+        return userSale != undefined;
     }
+
 
 
 
@@ -95,14 +86,12 @@ class SearchPage extends React.Component {
                 {
                     this.filter().map(sale => {
                         return (
-                            <SaleColor data={sale}
-                                       key={sale.id}
-                                       border={sale.isForAll != 0 ? "green" :
-                                           this.doseUserGetSale(sale) ? "green" :
-                                               "red"}
-                            />
-
-                        ) })
+                            <SaleColor
+                                data={sale}
+                                key={sale.id}
+                                border={sale.isForAll != 0 ? "green" : this.doseUserGetSale(sale) ? "green" : "red"}/>
+                        )
+                    })
                 }
             </div>
         )

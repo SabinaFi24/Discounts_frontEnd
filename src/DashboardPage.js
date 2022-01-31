@@ -1,6 +1,5 @@
 import React from "react";
-import Sale from "./SaleColor";
-import {GoDashboard} from "react-icons/go";
+import SaleColor from "./SaleColor";
 import axios from "axios";
 import Cookies from "universal-cookie/es6";
 
@@ -42,7 +41,7 @@ class DashboardPage extends React.Component {
                         this.state.sales.map(sale => {
                             return (
                                 <div>
-                                    <Sale data={sale}/>
+                                    <SaleColor data={sale}/>
                                 </div>
                             )
                         })
