@@ -27,6 +27,7 @@ class SettingsPage extends React.Component {
             })
     }
     getOrganizationsByUser = () => {
+        debugger;
         const cookies = new Cookies();
         axios.get("http://localhost:8989/get-organizations-by-user", {
             params: {
@@ -42,32 +43,23 @@ class SettingsPage extends React.Component {
             })
     }
 
+    doseUserInOrganization = (id) =>{
+        const organization = this.state.userOrganizations.find(organization => {
+            return organization.id == id;
+        })
+        return organization != undefined;
+    }
+
     changeSettings = (id) => {
         let cookies = new Cookies();
         let data = new FormData();
         data.append("token", cookies.get("logged_in"))
-        data.append("organizationId", id)
+        data.append("id", id)
         axios.post("http://localhost:8989/settings-change", data)
             .then((response) => {
                 this.getOrganizationsByUser();
 
             })
-    }
-
-    doseUserInOrganization = (id) =>{
-        let belong = false
-        this.state.userOrganizations.map((organization) => {
-            return (
-                <div>{
-                    organization.id == id.id &&
-                    <div>{
-                        belong = true
-                    }</div>
-                }
-                </div>
-            )
-        })
-        return belong
     }
     render() {
         return (
@@ -79,7 +71,7 @@ class SettingsPage extends React.Component {
                         <div className={"settings"}>
                             <p>
                                 <input type={"checkbox"}
-                                       onClick={this.changeSettings}
+                                       onClick={() => this.changeSettings(organization.id)}
                                        value={organization.id}
                                        checked={this.doseUserInOrganization(organization.id)}/>
                                 <label>{organization.name}</label>
